@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        #map-canvas {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXxVnPjE54Q6Q4zOpc_OwOMbs3_jNeKNI&libraries=places"></script>
+
+</head>
+<body>
+
+
+    
+
+    <h1>WHY HARLESDEN MUST BE PART OF ZONE 1?</h1>
+    <p>Sign the petition!</p>
+    <div id="map-canvas"></div>
+    <br>
+    <button id="getOxford">Get Directions to Oxford Circus</button><br><br>
+    <button id="getWestminster">Get Directions to Westminster</button><br><br>
+    <button id="getCanaryWharf">Get Directions to CanaryWharf</button>
+
+
+
+
+
+    <script>
+    
+    // CONNECTS TO GOOGLE SERVICES
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    var directionsService = new google.maps.DirectionsService();
+
+    // LOCATIONS ***COORDINATES***
+    var harlesden = new google.maps.LatLng(51.537176, -0.249069);
+    var oxfordCircus = new google.maps.LatLng(51.515219, -0.141857);
+    var westminster = new google.maps.LatLng(51.500735, -0.124626);
+    var canaryWharf = new google.maps.LatLng(51.505431, -0.023533);
+
+    var mapOptions = {
+        zoom: 14,
+        center: harlesden
+    }
+
+    var marker = new google.maps.Marker({
+		position: harlesden,
+		map: map
+	});
+
+    //  DISPLAYS MAP
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions, marker);
+    directionsDisplay.setMap(map);
+    
+
+    // CALCULATES ROUTE
+    function calculateRoute(XXdestinationXX) {
+        var request = {
+            origin: harlesden,
+            destination: XXdestinationXX,
+            travelMode: 'DRIVING'
+        }
+
+        directionsService.route(request, function(result, status){
+            console.log(result, status);
+
+            if(status == 'OK') {
+                directionsDisplay.setDirections(result);
+            }
+
+        });
+    }
+
+    // Button Click
+    document.getElementById('getOxford').onclick = function () {
+        calculateRoute(oxfordCircus);
+
+    }
+    document.getElementById('getWestminster').onclick = function () {
+        calculateRoute(westminster);
+    }
+    document.getElementById('getCanaryWharf').onclick = function () {
+        calculateRoute(canaryWharf);
+    }
+
+    </script>
+
+
+</body>
+</html>
